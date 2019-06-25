@@ -28,6 +28,9 @@ import javax.swing.table.DefaultTableModel;
 import org.joda.time.DateTime;
 
 import global.accesodatos.Crudable;
+import global.accesodatos.CrudableArchivo;
+import global.accesodatos.EditorialesDAOColeccion;
+import global.accesodatos.LibrosDAOArchivos;
 import global.accesodatos.LibrosDAOColeccion;
 import global.entidades.Editorial;
 import global.entidades.Libro;
@@ -37,14 +40,17 @@ public class MantenimientoLibros {
 	private JCheckBox chkBorrado;
 	private JFrame frmMantenimiento;
 	private ListadoVisualLibros ventanaListado = new ListadoVisualLibros();
-	private static Crudable<Libro,Editorial> dao = LibrosDAOColeccion.getInstance();
+	private static Crudable<Libro> daoLibrosColeccion = LibrosDAOColeccion.getInstance();
+	private static CrudableArchivo<Libro> daoLibrosArchivo = LibrosDAOArchivos.getInstance();
+	private static Crudable<Editorial> daoEditoriales = EditorialesDAOColeccion.getInstance();
+	
 	//buttonAnulable: Contiene todos los botones que pueden llegar a ser desactivados por datos erroneos ("setEnabled(false)");
 	private ArrayList<JButton> buttonAnulable = new ArrayList<JButton>(); 
 	private JComboBox<String> comboId = new JComboBox<String>(), comboTitulo = new JComboBox<String>();
 	private JTextField txtISBN, txtAutor, txtGenero, txtEdicion, txtEditorial, txtId, txtTitulo,txtDescripcion, txtFechaImpresion;
 
 	public void modificarLibro() throws ExcepcionCustom {
-		if (dao.modificar(crearLibroTxt(), Long.parseLong(txtId.getText()))) {
+		if (daoLibrosColeccion.modificar(crearLibroTxt(), Long.parseLong(txtId.getText()))) {
 			printOutput("Libro modificado");
 		} else {
 			throw new ExcepcionCustom("Libro no modificado, " + txtId.getText() + " no existe.",this.tPaneConsola);
@@ -52,13 +58,13 @@ public class MantenimientoLibros {
 		/*Se ha modificado un libro así que es posible que el titulo también haya cambiado, así que actualizo los index
 		Del jComboBox de Titulos para que los titulos mostrados sean coherentes*/
 		comboTitulo.removeAllItems();
-		for (Libro libro : dao.obtenerTodos()) {
+		for (Libro libro : daoLibrosColeccion.obtenerTodos()) {
 			comboTitulo.addItem(libro.getTitulo());
 		}
 	}
 
 	public void borrarLibro() throws ExcepcionCustom {
-		if (dao.borrar(Long.parseLong(txtId.getText()))) {
+		if (daoLibrosColeccion.borrar(Long.parseLong(txtId.getText()))) {
 			printOutput("Libro Borrado");
 		} else {
 			throw new ExcepcionCustom("Libro no Borrado, el libro " + txtId.getText() + " no existe.",this.tPaneConsola);
@@ -75,22 +81,22 @@ public class MantenimientoLibros {
 
 	public void anadirLibro() {
 		if(!checkearValidezCampos()) {
-			dao.insertar(crearLibroTxt());
+			daoLibrosColeccion.insertar(crearLibroTxt());
 			comboId.addItem(txtId.getText());
 			comboTitulo.addItem(txtTitulo.getText());
 		}
 	}
 
 	public void listarLibros() {
-		mostrarLista(dao.obtenerTodos());
+		mostrarLista(daoLibrosColeccion.obtenerTodos());
 	}
 
 	public void buscarPorId(Long id) {
-		mostrarLibroVisual(dao.obtenerPorId(id));
+		mostrarLibroVisual(daoLibrosColeccion.obtenerPorId(id));
 	}
 
 	public void buscarPorTitulo(String titulo) {
-		Iterable<Libro> libros = dao.obtenerTodos();
+		Iterable<Libro> libros = daoLibrosColeccion.obtenerTodos();
 		Libro l = null;
 		for (Libro libro : libros) {
 			if (libro.getTitulo().equals(titulo)) {
@@ -107,7 +113,7 @@ public class MantenimientoLibros {
 
 	
 	public void mostrarLista(Iterable<Libro> lista) {
-		ArrayList<Libro> libros = (ArrayList<Libro>) dao.obtenerTodos();
+		ArrayList<Libro> libros = (ArrayList<Libro>) daoLibrosColeccion.obtenerTodos();
 		Object[][] objRows = new Object[libros.size()][8]; //Contiene cada linea de datos de la tabla (Cada libro);
 		//Cargar cada linea de datos (cada libro);
 		for (int i = 0; i < libros.size(); i++) {
@@ -127,7 +133,7 @@ public class MantenimientoLibros {
 	}
 
 	public void printOutput(String s) {
-		String formattedDate = new SimpleDateFormat("hh:mm:ss a").format(new Date());
+		String formattedDate = new SimpleDateFormat("hh:mm:ss").format(new Date());
 		tPaneConsola.setText(tPaneConsola.getText() + "\n" + formattedDate + ": " + s);
 	}
 
@@ -165,11 +171,11 @@ public class MantenimientoLibros {
 	public Libro crearLibroTxt() {
 		return(new Libro(Long.parseLong(txtId.getText()), Long.parseLong(txtISBN.getText()), txtTitulo.getText(),
 				txtAutor.getText(), txtDescripcion.getText(), txtGenero.getText(), txtEdicion.getText(),
-				dao.getEditorialPorNombre(txtEditorial.getText()), chkBorrado.isSelected(), txtFechaImpresion.getText()));
+				daoEditoriales.buscarPorNombre(txtEditorial.getText()), chkBorrado.isSelected(), txtFechaImpresion.getText()));
 	}
 
 	public void cargarCombobox() {
-		ArrayList<Libro> libros = (ArrayList<Libro>) dao.obtenerTodos();
+		ArrayList<Libro> libros = (ArrayList<Libro>) daoLibrosColeccion.obtenerTodos();
 		for (Libro libro : libros) {
 			comboId.addItem("" + libro.getId());
 			comboTitulo.addItem(libro.getTitulo());
@@ -256,11 +262,11 @@ public class MantenimientoLibros {
 		 * genero, String edicion, String editorial, boolean isBorrado, String
 		 * fechaImpresion
 		 */
-		dao.insertar(new Libro(0, 12, "Titulo0", "autor0", "descripcion0", "genero0", "edicion0", dao.getEditorialPorNombre("Ye boi"),"desc0", false,
+		daoLibrosColeccion.insertar(new Libro(0, 12, "Titulo0", "autor0", "descripcion0", "genero0", "edicion0", daoEditoriales.buscarPorNombre("Ye boi"),"desc0", false,
 				"1990-12-28"));
-		dao.insertar(new Libro(1, 18, "ESTUDIAR EL DIA ANTERIOR", "God", "Intentar aprobar", "genero1", "edicion1", dao.getEditorialPorNombre("O´RLY"),"Y acabar suspendiendo", true,
+		daoLibrosColeccion.insertar(new Libro(1, 18, "ESTUDIAR EL DIA ANTERIOR", "God", "Intentar aprobar", "genero1", "edicion1", daoEditoriales.buscarPorNombre("O´RLY"),"Y acabar suspendiendo", true,
 				"2016-05-11"));
-		dao.insertar(new Libro(2, 900, "Titulo2", "autor2", "descripcion2", "genero2", "edicion2", dao.getEditorialPorNombre("Ye boi"),"desc2", false,
+		daoLibrosColeccion.insertar(new Libro(2, 900, "Titulo2", "autor2", "descripcion2", "genero2", "edicion2", daoEditoriales.buscarPorNombre("Ye boi"),"desc2", false,
 				"1500-01-01"));
 		cargarCombobox();
 	}
@@ -396,7 +402,7 @@ public class MantenimientoLibros {
 		JButton btnCargar = new JButton("Cargar");
 		btnCargar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(dao.cargarLibros()) {
+				if(daoLibrosArchivo.cargar()) {
 					printOutput("Json cargado en libros");
 					comboTitulo.removeAllItems();
 					comboId.removeAllItems();
@@ -492,7 +498,7 @@ public class MantenimientoLibros {
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(dao.guardarLibros()) printOutput("Libros guardados en Json");
+				if(daoLibrosArchivo.guardar()) printOutput("Libros guardados en Json");
 				else printOutput("Error al cargar los libros");
 			}
 		});

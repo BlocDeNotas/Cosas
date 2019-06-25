@@ -3,7 +3,7 @@ package global.presentacionconsola;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
-public class utiles {
+public class Utiles {
 	static Scanner pato = new Scanner(System.in);
 	
 	public static int LeerInt() {

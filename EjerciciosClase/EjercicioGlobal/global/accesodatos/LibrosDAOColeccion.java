@@ -11,18 +11,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import global.entidades.Editorial;
 import global.entidades.Libro;
 
-public class LibrosDAOColeccion implements Crudable<Libro,Editorial> {
+public class LibrosDAOColeccion implements Crudable<Libro> {
 	//Data
 	//Access
 	//Object
 	
 	// Inicio patrón Singleton
 	private LibrosDAOColeccion() {
-		editoriales.add(new Editorial("O´RLY", 0));
-		editoriales.add(new Editorial("Ye boi", 1));
-		
 	}
-	private ObjectMapper mapper = new ObjectMapper();
+	
+	
 	private static LibrosDAOColeccion instancia;
 	
 	public static LibrosDAOColeccion getInstance() {
@@ -35,48 +33,8 @@ public class LibrosDAOColeccion implements Crudable<Libro,Editorial> {
 	// Fin patrón Singleton
 	
 	private ArrayList<Libro> libros = new ArrayList<Libro>();
-	private ArrayList<Editorial> editoriales = new ArrayList<Editorial>();
 	
-	@Override
-	public boolean cargarLibros() {
-		boolean r = false;
-		try {
-			File file = new File(".\\libros.json");
-			libros = mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Libro.class));
-			r = true;
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return r;
-	}
 	
-	@Override
-	public boolean guardarLibros() {
-		boolean r = true;
-		File file = new File(".\\libros.json");
-		if(file.exists()){
-			file.delete();
-			try {
-				file.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-        try {
-            mapper.writeValue(file, libros);
-        } catch (IOException e) {
-        	r = false;
-            e.printStackTrace();
-        }
-        return r;
-	}
 	
 	@Override
 	public Iterable<Libro> obtenerTodos() {
@@ -106,7 +64,7 @@ public class LibrosDAOColeccion implements Crudable<Libro,Editorial> {
 		if(libros.indexOf(obtenerPorId(id))!=-1){
 			libros.set(libros.indexOf(obtenerPorId(id)),libro);
 			r = true;
-		} 
+		}
 		return r;
 	}
 	
@@ -127,35 +85,15 @@ public class LibrosDAOColeccion implements Crudable<Libro,Editorial> {
 	}
 
 	@Override
-	public Editorial getEditorialPorNombre(String text) {
-		for (Editorial editorial : editoriales) {
-			if(editorial.getNombre().equals(text)) return editorial;
-		}
+	public boolean asignar(Iterable<Libro> lista) {
+		libros = (ArrayList<Libro>) lista;
+		return false;
+	}
+
+	@Override
+	public Libro buscarPorNombre(String nombre) {
+		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean cargarEditoriales() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean guardarEditoriales() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean insertarEditorial() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean borrarEditorial() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

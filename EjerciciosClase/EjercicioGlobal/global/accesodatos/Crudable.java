@@ -1,23 +1,17 @@
 package global.accesodatos;
 
-import global.entidades.Editorial;
-
-public interface Crudable<L,E> {
+public interface Crudable<T> {
 	// Create
 	// Retrieve
 	// Update
 	// Delete
 	
-	public Iterable<L> obtenerTodos();
-	public boolean cargarLibros();
-	public boolean guardarLibros();
-	public boolean cargarEditoriales();
-	public boolean guardarEditoriales();
-	public boolean insertarEditorial();
-	public boolean borrarEditorial();
-	public L obtenerPorId(long id);
-	public boolean insertar(L objeto);
-	public boolean modificar(L objeto, long id);
+	public Iterable<T> obtenerTodos();
+	public T obtenerPorId(long id);
+	public boolean insertar(T objeto);
+	public boolean modificar(T objeto, long id);
 	public boolean borrar(long id);
-	public Editorial getEditorialPorNombre(String text);
+	public T buscarPorNombre(String nombre);
+	public boolean asignar(Iterable<T> lista);
+	//public Editorial getEditorialPorNombre(String text);
 }
