@@ -74,9 +74,11 @@ public class MantenimientoLibros {
 	}
 
 	public void anadirLibro() {
-		dao.insertar(crearLibroTxt());
-		comboId.addItem(txtId.getText());
-		comboTitulo.addItem(txtTitulo.getText());
+		if(!checkearValidezCampos()) {
+			dao.insertar(crearLibroTxt());
+			comboId.addItem(txtId.getText());
+			comboTitulo.addItem(txtTitulo.getText());
+		}
 	}
 
 	public void listarLibros() {
@@ -185,8 +187,9 @@ public class MantenimientoLibros {
 			}
 		});
 	}
+	
 
-	public void checkearValidezCampos() {
+	public boolean checkearValidezCampos() {
 		boolean saltarBoton = true; //Hace que si el dato erroneo es
 		boolean datosErroneos = false;
 		boolean errorFecha = false;
@@ -226,6 +229,7 @@ public class MantenimientoLibros {
 		if (saltarBoton) {
 			buttonAnulable.get(0).setEnabled(true);
 		}
+		return datosErroneos;
 	}
 	
 	DocumentListener checker = new DocumentListener() {
@@ -353,7 +357,8 @@ public class MantenimientoLibros {
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					borrarLibro();
+					if(txtId.getText().matches("[0-9]+"))borrarLibro();
+					else printOutput("Id no válida, libro no borrado");
 				} catch (ExcepcionCustom e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -367,7 +372,9 @@ public class MantenimientoLibros {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					modificarLibro();
+					if(!checkearValidezCampos()) {
+						modificarLibro();
+					}
 				} catch (ExcepcionCustom e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
