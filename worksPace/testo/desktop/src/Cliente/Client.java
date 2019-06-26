@@ -48,7 +48,7 @@ public class Client extends Thread{
         byte[] elDatoEnBytes = elDato.toByteArray();
         dato = new DatagramPacket(elDatoEnBytes,
                 elDatoEnBytes.length, InetAddress
-                        .getByName("localhost"),
+                        .getByName(Constantes.ipServer),
                 Constantes.portServer);
     	socket.send(dato);
     	//System.out.println(pw.checkError());

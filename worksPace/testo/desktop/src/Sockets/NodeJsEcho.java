@@ -99,14 +99,11 @@ public class NodeJsEcho extends Thread {
 					if(c != null) {
 						c.procesarDatos(datoRecibido.toString());
 					} else {
-						System.out.println("Nuevo cliente: "+dato.getAddress());
+						ServerVisual.print("Se ha conectado un cliente");
 						Cliente cTemp = new Cliente(""+dato.getAddress());
 						clientes.add(cTemp);
 						cTemp.procesarDatos(datoRecibido.toString());
 					}
-					
-					
-					ServerVisual.print("Se ha conectado un cliente");
 				}
 				
 			}
