@@ -31,14 +31,14 @@ public class NodeJsEcho extends Thread {
 	
 
 	public static void main(String[] args) throws UnknownHostException, IOException, ClassNotFoundException {
-		int port = 55286;
 		NodeJsEcho m = new NodeJsEcho();
         m.dato = new DatagramPacket(new byte[100], 100);
-		m.serverSocket = new DatagramSocket(
-				55286, InetAddress
-                .getByName("localhost"));
+		m.serverSocket = new DatagramSocket(Constantes.portServer);
 		m.start();
-		new ServerVisual().frmElMejorServer.setVisible(true);;
+		ServerVisual s = new ServerVisual();
+		s.frmElMejorServer.setVisible(true);
+		s.print("Puerto: "+m.serverSocket.getLocalPort());
+		
 	}
 	
 	public NodeJsEcho() {
@@ -84,18 +84,31 @@ public class NodeJsEcho extends Thread {
 			
 			while(true) {
 				Cliente c = null;
-				for (Cliente cliente : clientes) {
-					if(cliente.getIp().equals(dato.getAddress().getHostName()))c = cliente;
-				}
-				if(c != null) {
+				serverSocket.receive(dato);
+				if(dato!=null) {
+					for (Cliente cliente : clientes) {
+						if(cliente.getIp().equals(""+dato.getAddress())) {
+							c = cliente;
+						}
+						else {
+							System.out.println("IP: "+cliente.getIp()+" Encontrada");
+						}
+						
+					}
 					DatoUdp datoRecibido = DatoUdp.fromByteArray(dato.getData());
-					c.procesarDatos(datoRecibido.toString());
-				} else {
-					clientes.add(new Cliente(dato.getAddress().getHostName()));
+					if(c != null) {
+						c.procesarDatos(datoRecibido.toString());
+					} else {
+						System.out.println("Nuevo cliente: "+dato.getAddress());
+						Cliente cTemp = new Cliente(""+dato.getAddress());
+						clientes.add(cTemp);
+						cTemp.procesarDatos(datoRecibido.toString());
+					}
+					
+					
+					ServerVisual.print("Se ha conectado un cliente");
 				}
 				
-				
-				ServerVisual.print("Se ha conectado un cliente");
 			}
 			
 		} catch (IOException e1) {

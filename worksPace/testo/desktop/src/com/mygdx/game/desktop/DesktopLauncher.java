@@ -27,6 +27,7 @@ public class DesktopLauncher {
 		if((Long)id != null) {
 			Juego.print(msg);
 		} else {
+			System.out.println(msg);
 			if(comando[0].equals("/connected")) {
 				Login.frame.setVisible(false);
 				LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
@@ -34,6 +35,7 @@ public class DesktopLauncher {
 				new LwjglApplication(new Launcher(), config);
 				id = Long.parseLong(comando[1]);
 			} else {
+				System.out.println(msg);
 				System.out.println("WTFF");
 			}
 		}

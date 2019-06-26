@@ -14,6 +14,7 @@ import java.net.UnknownHostException;
 import com.mygdx.game.desktop.DesktopLauncher;
 import com.mygdx.game.desktop.Juego;
 
+import Sockets.Constantes;
 import Sockets.DatoUdp;
 import Sockets.NodeJsEcho;
 public class Client extends Thread{
@@ -29,31 +30,16 @@ public class Client extends Thread{
     }
     
     public void iniciar() {
-		try {
-			socket = new DatagramSocket(55286, InetAddress
-			        .getByName("localhost"));
-			if(!socket.isConnected()) {
-				System.out.println("Servidor no encontrado, SADASDJOSADJASD");
-				try {
-					NodeJsEcho.main(null);
-					iniciar();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+			try {
+				socket = new DatagramSocket(Constantes.portCliente, InetAddress
+				        .getByName("localhost"));
+			} catch (SocketException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SocketException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
        
     }
     
@@ -63,7 +49,7 @@ public class Client extends Thread{
         dato = new DatagramPacket(elDatoEnBytes,
                 elDatoEnBytes.length, InetAddress
                         .getByName("localhost"),
-                55286);
+                Constantes.portServer);
     	socket.send(dato);
     	//System.out.println(pw.checkError());
         System.out.println("accion enviada al server: "+accion);
@@ -81,7 +67,6 @@ public class Client extends Thread{
 				
 				if(s != null) {
 					DesktopLauncher.print(s);
-					//System.out.println(s);
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
