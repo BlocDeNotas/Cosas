@@ -65,6 +65,11 @@ public class Login {
 		textField_1.setColumns(10);
 		
 		JButton btnNewButton = new JButton("Register");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DesktopLauncher.client.enviar("/register "+textField.getText()+" "+textField_1.getText());
+			}
+		});
 		btnNewButton.setBounds(382, 366, 89, 35);
 		frame.getContentPane().add(btnNewButton);
 		

@@ -70,7 +70,9 @@ public class Cliente extends Thread {
 						}else if(comando[0].equals("/up")){
 							broadCast(s+" "+u.getId());
 							u.getP().teclasPulsadas.remove((Integer)Integer.parseInt(comando[1]));
-						}else {
+						}else if(comando[0].equals("/register")){
+							crearUsuario(comando[1],comando[2]);
+						} else {
 							ServerVisual.print("Comando "+comando[0]+" no encontrado.");
 						}
 					}
@@ -89,6 +91,11 @@ public class Cliente extends Thread {
 	
 	
 	
+	private void crearUsuario(String nombre, String password) {
+		consultaBases("INSERT INTO usuario VALUES ('"+nombre+"', '"+password+"')",true);
+		ServerVisual.print("Usiario "+nombre+" registrado.");
+	}
+
 	public void broadCast(String s) {
 		for (Iterator iterator = NodeJsEcho.clientes.iterator(); iterator.hasNext();) {
 			Cliente c = (Cliente) iterator.next();
@@ -97,14 +104,15 @@ public class Cliente extends Thread {
 	}
 	
 	public Usuario cargarUsuario(String nombre, String password) {
-		Usuario u = new Usuario(consultaBases("Select * from usuario where Nombre = '"+nombre+"' and Password = '"+password+"'"));
+		Usuario u = new Usuario((ArrayList<ArrayList<String>>) consultaBases("Select * from usuario where Nombre = '"+nombre+"' and Password = '"+password+"'",false));
 		return u;
 	}
 	
-	public ArrayList<ArrayList<String>> consultaBases(String sql) {
+	public Object consultaBases(String sql, boolean b) {
 		ArrayList<ArrayList<String>> temp = new ArrayList<ArrayList<String>>();
 		try {
-			temp = NodeJsEcho.datos.consulta(sql);
+			if(!b)temp = NodeJsEcho.datos.consulta(sql);
+			else return NodeJsEcho.datos.modificacion(sql);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

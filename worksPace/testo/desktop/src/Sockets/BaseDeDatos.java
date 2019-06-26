@@ -46,4 +46,10 @@ public class BaseDeDatos {
 		System.out.println("/////////////////////////////");
 		return datos;
 	}
+
+	public int modificacion(String sql) throws SQLException {
+		Statement sentencia = con.createStatement();
+		int rs = sentencia.executeUpdate(sql);
+		return rs;
+	}
 }
