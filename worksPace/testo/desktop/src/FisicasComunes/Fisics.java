@@ -16,7 +16,6 @@ public class Fisics {
 	public static void update() {
 		int ySuelo = 50;
 		int parallaxSpeed = 6;
-		ServerVisual.print("Update");
 		for(Cliente u: NodeJsEcho.clientes) {
 			if(u.getUsuario()!= null) {
 				FisicasComunes.PlayerComun p = u.getUsuario().getP();
@@ -56,9 +55,7 @@ public class Fisics {
 	}
 
 	private static void calcularHitBoxes(PlayerComun pl2) {
-		ServerVisual.print("Uauuau");
 		for (FisicasComunes.AtaqueComun aActual : pl2.getAtaques()) {
-			ServerVisual.print("RPRPR");
 			//aActual.getBody().setX(u.getUsuario().getP().getBody().getX());
 			//aActual.getBody().setY(u.getUsuario().getP().getBody().getY());
 			//double xt = aActual.getBody().getX();

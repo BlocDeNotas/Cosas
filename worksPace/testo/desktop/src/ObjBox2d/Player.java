@@ -1,5 +1,6 @@
 package ObjBox2d;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -47,12 +48,17 @@ public class Player extends ObjetoFisicoPintable implements MetodosFisicos {
 		for (Ataque ataque : this.ataques) {
 			ataque.update();
 		}
-		this.updateAnimacion();
+		try {
+			this.updateAnimacion();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		pintar(false);
 
 	}
 	
-	public void updateAnimacion() {
+	public void updateAnimacion() throws IOException {
 		Player p = this;
 		ArrayList<Integer> teclasPulsadas = p.teclasPulsadas;
 		Body pBody = p.getBody();

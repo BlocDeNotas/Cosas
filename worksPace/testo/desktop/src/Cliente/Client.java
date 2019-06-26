@@ -4,19 +4,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ConnectException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import com.mygdx.game.desktop.DesktopLauncher;
 import com.mygdx.game.desktop.Juego;
 
+import Sockets.DatoUdp;
 import Sockets.NodeJsEcho;
 public class Client extends Thread{
-	private Socket socket;
-    private PrintWriter pw;
-    private InputStreamReader isr;
-    private BufferedReader br;
-    
+	private DatagramSocket socket;
+	DatagramPacket dato;
+	private byte[] buf = new byte[256];
     public static void main(String[] args) {
 		new Client();
 	}
@@ -26,35 +29,42 @@ public class Client extends Thread{
     }
     
     public void iniciar() {
-    	try {
-			socket = new Socket("127.0.0.1",55286);
-			 pw = new PrintWriter(socket.getOutputStream(), true);
-	        isr = new InputStreamReader(socket.getInputStream());
-	        br = new BufferedReader(isr);
-		} catch (ConnectException e) {
-			System.out.println("Servidor no encontrado, iniciando server local");
-			try {
-				NodeJsEcho.main(null);
-				iniciar();
-			} catch (UnknownHostException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+		try {
+			socket = new DatagramSocket(55286, InetAddress
+			        .getByName("localhost"));
+			if(!socket.isConnected()) {
+				System.out.println("Servidor no encontrado, SADASDJOSADJASD");
+				try {
+					NodeJsEcho.main(null);
+					iniciar();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
-		} catch (IOException e) {
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
        
     }
     
-    public void enviar(String accion) {
-    	pw.println(accion);
+    public void enviar(String accion) throws IOException {
+    	DatoUdp elDato = new DatoUdp(accion);
+        byte[] elDatoEnBytes = elDato.toByteArray();
+        dato = new DatagramPacket(elDatoEnBytes,
+                elDatoEnBytes.length, InetAddress
+                        .getByName("localhost"),
+                55286);
+    	socket.send(dato);
     	//System.out.println(pw.checkError());
         System.out.println("accion enviada al server: "+accion);
     }
@@ -64,7 +74,10 @@ public class Client extends Thread{
 		// TODO Auto-generated method stub
 		while(true) {
 			try {
-				String s = br.readLine();
+				DatagramPacket packet 
+	              = new DatagramPacket(buf, buf.length);
+	            socket.receive(packet);
+				String s = new String(packet.getData(), 0, packet.getLength());
 				
 				if(s != null) {
 					DesktopLauncher.print(s);

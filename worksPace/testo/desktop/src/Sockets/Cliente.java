@@ -4,17 +4,43 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import FisicasComunes.PlayerComun;
 
-public class Cliente extends Thread {
+public class Cliente{
 	private Socket socket;
-	PrintWriter out;
-	private BufferedReader in;
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
+	public Usuario getU() {
+		return u;
+	}
+
+	public void setU(Usuario u) {
+		this.u = u;
+	}
+
+	private String ip;
 	private Usuario u;
 	
 	public Usuario getUsuario() {
@@ -25,84 +51,68 @@ public class Cliente extends Thread {
 		this.u = u;
 	}
 
-	public Cliente(Socket s) {
-		socket = s;
-		try {
-			out = new PrintWriter(s.getOutputStream(), true);
-			in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public Cliente(String string) {
+		ip = string;
 	}
 	
-	@Override
-	public void run() {
+	
+	public void procesarDatos(String s) throws IOException {
 		// TODO Auto-generated method stub
-		super.run();
-		try {
-			while(true) {
-				String s = in.readLine();
-				if(s.length()>0) {
-					if(s.charAt(0)!='/') {
-						 if(u== null) {
-							out.println("Logeate para poder mandar mensajes.");
-						} else {
-							broadCast("/input "+s+" "+u.getId());
-							u.getP().teclasPulsadas.add(Integer.parseInt(s));
+		byte[] buf = s.getBytes();
+		String msgOut = "";
+		
+		if(s.length()>0) {
+			if(s.charAt(0)!='/') {
+				 if(u== null) {
+					 msgOut = "Logeate para poder mandar mensajes.";
+				} else {
+					broadCast("/input "+s+" "+u.getId());
+					u.getP().teclasPulsadas.add(Integer.parseInt(s));
+				}
+			}else {
+				String[] comando = s.split(" ");
+				System.out.println("Ejecutando comando "+comando[0]);
+				if(comando[0].equals("/login")) {
+					try {
+						u = cargarUsuario(comando[1],comando[2]);
+						msgOut = "/connected "+u.getId();
+						broadCast("/create 0 0 "+u.getId()+" "+u.getNombre());
+						for (Cliente cTemp : NodeJsEcho.clientes) {
+							u.setP(new PlayerComun(0,0));
+							msgOut = "/create 0 0 "+cTemp.getUsuario().getId()+" "+cTemp.getUsuario().getNombre();
 						}
-					}else {
-						String[] comando = s.split(" ");
-						System.out.println("Ejecutando comando "+comando[0]);
-						if(comando[0].equals("/login")) {
-							try {
-								u = cargarUsuario(comando[1],comando[2]);
-								out.println("/connected "+u.getId());
-								broadCast("/create 0 0 "+u.getId()+" "+u.getNombre());
-								for (Cliente cTemp : NodeJsEcho.clientes) {
-									u.setP(new PlayerComun(0,0));
-									out.println("/create 0 0 "+cTemp.getUsuario().getId()+" "+cTemp.getUsuario().getNombre());
-								}
-							} catch (Exception e) {
-								ServerVisual.print("Excepción al cargarUsuario.");
-								e.printStackTrace();
-								out.println("(System) Datos o formato erroneo");
-								
-							}
-						}else if(comando[0].equals("/up")){
-							broadCast(s+" "+u.getId());
-							u.getP().teclasPulsadas.remove((Integer)Integer.parseInt(comando[1]));
-						}else if(comando[0].equals("/register")){
-							crearUsuario(comando[1],comando[2]);
-						} else {
-							ServerVisual.print("Comando "+comando[0]+" no encontrado.");
-						}
+					} catch (Exception e) {
+						ServerVisual.print("Excepción al cargarUsuario.");
+						e.printStackTrace();
+						msgOut = "(System) Datos o formato erroneo";
+						
 					}
-				} 
-				
+				}else if(comando[0].equals("/up")){
+					broadCast(s+" "+u.getId());
+					u.getP().teclasPulsadas.remove((Integer)Integer.parseInt(comando[1]));
+				}else if(comando[0].equals("/register")){
+					crearUsuario(comando[1],comando[2]);
+				} else {
+					ServerVisual.print("Comando "+comando[0]+" no encontrado.");
+				}
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			try {
-				broadCast("(System) Ha ocurrido un fallo crítico en el servidor.");
-			} catch (Exception e2) {
-				e.printStackTrace();
-			}
-		}
+		} 
 	}
-	
-	
-	
+
 	private void crearUsuario(String nombre, String password) {
 		consultaBases("INSERT INTO usuario VALUES ('"+nombre+"', '"+password+"')",true);
 		ServerVisual.print("Usiario "+nombre+" registrado.");
 	}
 
-	public void broadCast(String s) {
+	public void broadCast(String s) throws UnknownHostException, IOException {
 		for (Iterator iterator = NodeJsEcho.clientes.iterator(); iterator.hasNext();) {
 			Cliente c = (Cliente) iterator.next();
-			if(c!=this)c.out.println(/*"("+u.getNombre()+") "+*/s);
+			/*if(c!=this)*/enviarUdp(/*"("+u.getNombre()+") "+*/s);
 		};
+	}
+	
+	public void enviarUdp(String dato) throws UnknownHostException, IOException {
+		NodeJsEcho.serverSocket.send(new DatagramPacket(dato.getBytes(), dato.length(), InetAddress.getByName("localhost"),55286));
 	}
 	
 	public Usuario cargarUsuario(String nombre, String password) {

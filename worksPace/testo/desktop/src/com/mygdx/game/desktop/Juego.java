@@ -1,5 +1,6 @@
 package com.mygdx.game.desktop;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -231,7 +232,12 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 		// TODO Auto-generated method stub
 		if (!players.get(0).teclasPulsadas.contains(keycode)) {
 			players.get(0).teclasPulsadas.add((Integer) keycode);
-			DesktopLauncher.client.enviar(""+keycode);
+			try {
+				DesktopLauncher.client.enviar(""+keycode);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(controlesSinLoop.contains(keycode)) players.get(0).setTimerAnim(0);
 		}
 			
@@ -243,7 +249,12 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 	@Override
 	public boolean keyUp(int keycode) {
 		if (players.get(0).teclasPulsadas.contains(keycode)) {
-			DesktopLauncher.client.enviar("/up "+keycode);
+			try {
+				DesktopLauncher.client.enviar("/up "+keycode);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if(!controlesSinLoop.contains(keycode)) {
 				players.get(0).teclasPulsadas.remove((Integer) keycode);
 				

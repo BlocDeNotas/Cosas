@@ -14,6 +14,7 @@ import com.mygdx.game.desktop.Juego;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 
 public class Login {
@@ -67,7 +68,12 @@ public class Login {
 		JButton btnNewButton = new JButton("Register");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DesktopLauncher.client.enviar("/register "+textField.getText()+" "+textField_1.getText());
+				try {
+					DesktopLauncher.client.enviar("/register "+textField.getText()+" "+textField_1.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton.setBounds(382, 366, 89, 35);
@@ -76,7 +82,12 @@ public class Login {
 		JButton btnNewButton_1 = new JButton("Login");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DesktopLauncher.client.enviar("/login "+textField.getText()+" "+textField_1.getText());
+				try {
+					DesktopLauncher.client.enviar("/login "+textField.getText()+" "+textField_1.getText());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnNewButton_1.setBounds(231, 421, 197, 47);
