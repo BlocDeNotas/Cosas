@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import FisicasComunes.PlayerComun;
+
 public class Cliente extends Thread {
 	private Socket socket;
 	PrintWriter out;
@@ -58,7 +60,7 @@ public class Cliente extends Thread {
 								out.println("/connected "+u.getId());
 								broadCast("/create 0 0 "+u.getId()+" "+u.getNombre());
 								for (Cliente cTemp : NodeJsEcho.clientes) {
-									u.setP(new Player(0,0));
+									u.setP(new PlayerComun(0,0));
 									out.println("/create 0 0 "+cTemp.getUsuario().getId()+" "+cTemp.getUsuario().getNombre());
 								}
 							} catch (Exception e) {

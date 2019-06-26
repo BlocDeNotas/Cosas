@@ -20,8 +20,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import Cliente.Client;
 import Cliente.Login;
+import FisicasComunes.Body;
 import ObjBox2d.Ataque;
-import ObjBox2d.Body;
 import ObjBox2d.Player;
 
 public class Juego extends ApplicationAdapter implements Screen, InputProcessor {

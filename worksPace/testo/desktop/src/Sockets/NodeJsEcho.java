@@ -12,7 +12,8 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import ObjBox2d.Body;
+import FisicasComunes.Body;
+import FisicasComunes.Fisics;
 
 import java.sql.*;
 

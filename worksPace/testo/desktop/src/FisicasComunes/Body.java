@@ -1,4 +1,4 @@
-package ObjBox2d;
+package FisicasComunes;
 
 import com.badlogic.gdx.math.Vector2;
 

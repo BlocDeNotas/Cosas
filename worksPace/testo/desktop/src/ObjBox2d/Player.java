@@ -7,7 +7,9 @@ import com.badlogic.gdx.Input;
 import com.mygdx.game.desktop.DesktopLauncher;
 import com.mygdx.game.desktop.Juego;
 
-public class Player extends ObjetoFisico implements MetodosFisicos {
+import FisicasComunes.Body;
+
+public class Player extends ObjetoFisicoPintable implements MetodosFisicos {
 	private int hp;
 	private int comboEspadaTimer = 0,contCombo = 0;
 	public static final int comboEspadaMaxTime = 15, rowSpritesheet = 7, heightSpritesheet = 16, saltarColumnaSpritesheet = 8;

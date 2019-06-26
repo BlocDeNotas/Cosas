@@ -3,16 +3,18 @@ package Sockets;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import FisicasComunes.PlayerComun;
+
 public class Usuario {
 	private String nombre, apellido, edad, contrasena, nUsuario;
 	private long id = (long)(Math.random()*1000);
-	private Player p;
+	private PlayerComun p;
 
-	public Player getP() {
+	public PlayerComun getP() {
 		return p;
 	}
 
-	public void setP(Player p) {
+	public void setP(PlayerComun p) {
 		this.p = p;
 	}
 

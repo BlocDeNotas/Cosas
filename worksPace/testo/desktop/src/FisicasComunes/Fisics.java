@@ -1,12 +1,15 @@
-package Sockets;
+package FisicasComunes;
 
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Input;
 import com.mygdx.game.desktop.DesktopLauncher;
+import com.mygdx.game.desktop.Launcher;
 
 import ObjBox2d.Ataque;
-import ObjBox2d.Body;
+import ObjBox2d.Player;
+import Sockets.Cliente;
+import Sockets.NodeJsEcho;
 
 public class Fisics {
 	public static void update() {
@@ -14,7 +17,7 @@ public class Fisics {
 		int parallaxSpeed = 6;
 		for(Cliente u: NodeJsEcho.clientes) {
 			if(u.getUsuario()!= null) {
-				Player p = u.getUsuario().getP();
+				FisicasComunes.PlayerComun p = u.getUsuario().getP();
 				ArrayList<Integer> teclasPulsadas = p.teclasPulsadas;
 				Body pBody = p.getBody();
 				if(teclasPulsadas.contains(Input.Keys.F)) {
@@ -43,6 +46,30 @@ public class Fisics {
 				pBody.setX(pBody.getX() + pBody.getVelx());
 			}
 			
-		}
+			for (FisicasComunes.AtaqueComun aActual : u.getUsuario().getP().getAtaques()) {
+				double xt = aActual.getBody().getX();
+				double yt = aActual.getBody().getY();
+				boolean colis = false;
+				for (Cliente c2 : NodeJsEcho.clientes) {
+					FisicasComunes.PlayerComun pl2 = c2.getUsuario().getP();
+					Body pl2Body = pl2.getBody();
+					double xPl = pl2Body.getHitbox()[4];
+					double yPl = pl2Body.getHitbox()[5];
+					if(!pl2.equals(u.getUsuario().getP())) {
+						int distx = (int) Math.abs(xt - xPl);
+						if ( (xt<xPl && distx < aActual.getBody().getWidth()) || (xt>xPl && distx < pl2Body.getHitbox()[2])) {
+							int disty = (int)Math.abs(yPl-yt);
+							
+							if( (yt < yPl && disty < aActual.getBody().getHeight()) || (yt>yPl && disty < pl2Body.getHitbox()[3])) {
+								colis = true;
+								pl2.setHp(pl2.getHp() - aActual.getAtk());
+							}
+						}
+					}
+				}
+			}
+				
+		}	
+		
 	}
 }

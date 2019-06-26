@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-public class Ataque extends ObjetoFisico implements MetodosFisicos {
+import FisicasComunes.Body;
+
+public class Ataque extends ObjetoFisicoPintable implements MetodosFisicos {
 	private int atk; // Tipo se refiere a que guerrero es 0,1,2 o 3
 	private int tDurabilidad = 30, idPlayer;
 	public static HashMap<String, DatosAnimacion> animaciones = new HashMap<String, DatosAnimacion>();

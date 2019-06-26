@@ -14,7 +14,7 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 
 import ObjBox2d.Ataque;
 import ObjBox2d.DatosAnimacion;
-import ObjBox2d.ObjetoFisico;
+import ObjBox2d.ObjetoFisicoPintable;
 import ObjBox2d.Player;
 
 public final class CargarRecursos {

@@ -9,7 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.mygdx.game.desktop.Juego;
 import com.mygdx.game.desktop.Launcher;
 
-public abstract class ObjetoFisico {
+import FisicasComunes.Body;
+
+public abstract class ObjetoFisicoPintable {
 	protected int tipo; //Tipo se refiere a que guerrero es 0,1,2 o 3
     protected Body body; //Cuerpo físico de box2d
     protected boolean animLoop = true;
