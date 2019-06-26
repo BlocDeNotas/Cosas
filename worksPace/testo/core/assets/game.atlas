@@ -1,0 +1,331 @@
+
+game.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+1
+  rotate: false
+  xy: 580, 99
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+adventureAirAttack1
+  rotate: false
+  xy: 316, 133
+  size: 208, 39
+  orig: 208, 39
+  offset: 0, 0
+  index: -1
+adventureAirAttack2
+  rotate: false
+  xy: 526, 133
+  size: 156, 39
+  orig: 156, 39
+  offset: 0, 0
+  index: -1
+adventureAirAttack3
+  rotate: false
+  xy: 2, 10
+  size: 156, 39
+  orig: 156, 39
+  offset: 0, 0
+  index: -1
+adventureAirPos
+  rotate: false
+  xy: 474, 92
+  size: 104, 39
+  orig: 104, 39
+  offset: 0, 0
+  index: -1
+adventureAttack1
+  rotate: false
+  xy: 2, 92
+  size: 260, 39
+  orig: 260, 39
+  offset: 0, 0
+  index: -1
+adventureAttack2
+  rotate: false
+  xy: 2, 174
+  size: 312, 39
+  orig: 312, 39
+  offset: 0, 0
+  index: -1
+adventureAttack3
+  rotate: false
+  xy: 2, 133
+  size: 312, 39
+  orig: 312, 39
+  offset: 0, 0
+  index: -1
+adventureAttackEnd
+  rotate: false
+  xy: 212, 51
+  size: 156, 39
+  orig: 156, 39
+  offset: 0, 0
+  index: -1
+adventureAttackLoop
+  rotate: false
+  xy: 684, 133
+  size: 104, 39
+  orig: 104, 39
+  offset: 0, 0
+  index: -1
+adventureCrouch
+  rotate: false
+  xy: 630, 174
+  size: 208, 39
+  orig: 208, 39
+  offset: 0, 0
+  index: -1
+adventureFall
+  rotate: false
+  xy: 160, 10
+  size: 104, 39
+  orig: 104, 39
+  offset: 0, 0
+  index: -1
+adventureIdle
+  rotate: false
+  xy: 2, 51
+  size: 208, 39
+  orig: 208, 39
+  offset: 0, 0
+  index: -1
+adventureJump
+  rotate: false
+  xy: 264, 92
+  size: 208, 39
+  orig: 208, 39
+  offset: 0, 0
+  index: -1
+adventureRoll
+  rotate: false
+  xy: 370, 51
+  size: 104, 39
+  orig: 104, 39
+  offset: 0, 0
+  index: -1
+castillos
+  rotate: false
+  xy: 840, 55
+  size: 97, 158
+  orig: 97, 158
+  offset: 0, 0
+  index: -1
+cuadro
+  rotate: false
+  xy: 266, 26
+  size: 77, 23
+  orig: 77, 23
+  offset: 0, 0
+  index: -1
+fondook0
+  rotate: false
+  xy: 2, 215
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+hp
+  rotate: false
+  xy: 932, 938
+  size: 4, 4
+  orig: 4, 4
+  offset: 0, 0
+  index: -1
+hpbar
+  rotate: false
+  xy: 2, 2
+  size: 75, 6
+  orig: 75, 6
+  offset: 0, 0
+  index: -1
+icono
+  rotate: false
+  xy: 932, 944
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+oro
+  rotate: false
+  xy: 790, 140
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+playerRun
+  rotate: false
+  xy: 316, 174
+  size: 312, 39
+  orig: 312, 39
+  offset: 0, 0
+  index: -1
+spikes
+  rotate: false
+  xy: 476, 72
+  size: 42, 18
+  orig: 42, 18
+  offset: 0, 0
+  index: -1
+
+game2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook1
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game3.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook2
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game4.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook3
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook4
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game6.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook5
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game7.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook6
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game8.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook7
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game9.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook8
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game10.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook9
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game11.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fondook10
+  rotate: false
+  xy: 2, 2
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game12.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+adventurer
+  rotate: false
+  xy: 516, 154
+  size: 350, 592
+  orig: 350, 592
+  offset: 0, 0
+  index: -1
+blood
+  rotate: false
+  xy: 2, 234
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+playMenu
+  rotate: false
+  xy: 2, 2
+  size: 190, 230
+  orig: 190, 230
+  offset: 0, 0
+  index: -1
