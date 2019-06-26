@@ -28,6 +28,7 @@ public class Player extends ObjetoFisicoPintable implements MetodosFisicos {
 	}
 
 	public Player(int hp, int tipo, int id) {
+		
 		//this.animActual = Player.animacionIdle;
 		this.hp = 20;// atk;
 		this.id = id;

@@ -42,6 +42,7 @@ public class PlayerComun {
 	
 	public PlayerComun(double x, double y) {
 		this.body = new Body(x, y, 0, 0); //TODO
+		this.ataques.add(new AtaqueComun(this.body, 10, 20));
 		this.dir = true;
 	}
 	

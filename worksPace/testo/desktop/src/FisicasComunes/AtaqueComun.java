@@ -27,4 +27,8 @@ public class AtaqueComun {
 	public void setAtk(int atk) {
 		this.atk = atk;
 	}
+	public void update() {
+		// TODO Auto-generated method stub
+		
+	}
 }
