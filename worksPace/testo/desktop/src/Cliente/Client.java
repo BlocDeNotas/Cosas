@@ -31,12 +31,8 @@ public class Client extends Thread{
     
     public void iniciar() {
 			try {
-				socket = new DatagramSocket(Constantes.portCliente, InetAddress
-				        .getByName("localhost"));
+				socket = new DatagramSocket(Constantes.portCliente);
 			} catch (SocketException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -76,11 +76,11 @@ public class Cliente{
 					try {
 						System.out.println("ASIGNANDO USUARIO");
 						u = cargarUsuario(comando[1],comando[2]);
+						u.setP(new PlayerComun(0,0));
 						msgOut = "/connected "+u.getId();
 						broadCast("/create 0 0 "+u.getId()+" "+u.getNombre());
 						for (Cliente cTemp : NodeJsEcho.clientes) {
-							u.setP(new PlayerComun(0,0));
-							enviarUdp("/create 0 0 "+cTemp.getUsuario().getId()+" "+cTemp.getUsuario().getNombre(),cTemp.ip);
+							if(!cTemp.equals(u))enviarUdp("/create 0 0 "+cTemp.getUsuario().getId()+" "+cTemp.getUsuario().getNombre(),cTemp.ip);
 						}
 					} catch (Exception e) {
 						ServerVisual.print("Excepción al cargarUsuario.");
@@ -112,12 +112,13 @@ public class Cliente{
 	public void broadCast(String s) throws UnknownHostException, IOException {
 		for (Iterator iterator = NodeJsEcho.clientes.iterator(); iterator.hasNext();) {
 			Cliente c = (Cliente) iterator.next();
-			/*if(c!=this)*/enviarUdp(/*"("+u.getNombre()+") "+*/s,c.ip);
+			if(c!=this)enviarUdp(/*"("+u.getNombre()+") "+*/s,c.ip);
 		};
 	}
 	
 	public void enviarUdp(String dato,String ip) throws UnknownHostException, IOException {
-		NodeJsEcho.serverSocket.send(new DatagramPacket(dato.getBytes(), dato.length(), InetAddress.getByName("localhost"),Constantes.portCliente));
+		//System.out.println("ENVIANDO: "+dato+" a: "+ip.substring(1, ip.length())+":"+Constantes.portCliente);
+		NodeJsEcho.serverSocket.send(new DatagramPacket(dato.getBytes(), dato.length(), InetAddress.getByName(ip.substring(1, ip.length())),Constantes.portCliente));
 	}
 	
 	public Usuario cargarUsuario(String nombre, String password) {

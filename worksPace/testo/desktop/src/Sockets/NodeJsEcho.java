@@ -58,7 +58,7 @@ public class NodeJsEcho extends Thread {
 			      for (Cliente c : clientes) {
 					if(c.getUsuario()!= null) {
 						for (Cliente c2 : clientes) {
-							if(c2.getUsuario()!=null) {
+							if(c2.getUsuario()!=null && c2.getUsuario().getP()!= null) {
 								Body pBody = c2.getUsuario().getP().getBody();
 								try {
 									c.broadCast("/syncro "+pBody.getX()+" "+pBody.getY()+" "+c2.getUsuario().getId()+" "+pBody.getVelx()+" "+pBody.getVely());
