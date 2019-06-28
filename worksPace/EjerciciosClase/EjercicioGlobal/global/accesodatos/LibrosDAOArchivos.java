@@ -13,29 +13,27 @@ import global.entidades.Libro;
 public class LibrosDAOArchivos implements CrudableArchivo<Libro> {
 	private ObjectMapper mapper = new ObjectMapper();
 	private static Crudable<Libro> daoLibros = LibrosDAOColeccion.getInstance();
-	
-	
+
 	private LibrosDAOArchivos() {
 	}
-	
-	
+
 	private static LibrosDAOArchivos instancia;
-	
+
 	public static LibrosDAOArchivos getInstance() {
-		if(instancia == null) {
+		if (instancia == null) {
 			instancia = new LibrosDAOArchivos();
 		}
-		
+
 		return instancia;
 	}
-	
-	
+
 	@Override
 	public boolean cargar() {
 		boolean r = false;
 		try {
 			File file = new File(".\\libros.json");
-			ArrayList<Libro> libros = mapper.readValue(file, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Libro.class));
+			ArrayList<Libro> libros = mapper.readValue(file,
+					mapper.getTypeFactory().constructCollectionType(ArrayList.class, Libro.class));
 			daoLibros.asignar(libros);
 			r = true;
 		} catch (JsonParseException e) {
@@ -50,12 +48,12 @@ public class LibrosDAOArchivos implements CrudableArchivo<Libro> {
 		}
 		return r;
 	}
-	
+
 	@Override
 	public boolean guardar() {
 		boolean r = true;
 		File file = new File(".\\libros.json");
-		if(file.exists()){
+		if (file.exists()) {
 			file.delete();
 			try {
 				file.createNewFile();
@@ -63,12 +61,12 @@ public class LibrosDAOArchivos implements CrudableArchivo<Libro> {
 				e.printStackTrace();
 			}
 		}
-        try {
-            mapper.writeValue(file, (ArrayList<Libro>)daoLibros.obtenerTodos());
-        } catch (IOException e) {
-        	r = false;
-            e.printStackTrace();
-        }
-        return r;
+		try {
+			mapper.writeValue(file, (ArrayList<Libro>) daoLibros.obtenerTodos());
+		} catch (IOException e) {
+			r = false;
+			e.printStackTrace();
+		}
+		return r;
 	}
 }

@@ -26,6 +26,7 @@ public class Lobby {
 	public JFrame frame;
 	private JTextField textField;
 	JTextPane textPane;
+	JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -89,7 +90,7 @@ public class Lobby {
 		textPane.setBounds(49, 52, 234, 116);
 		frame.getContentPane().add(textPane);
 
-		JScrollPane scrollPane = new JScrollPane(textPane);
+		scrollPane = new JScrollPane(textPane);
 		scrollPane.setBounds(49, 52, 234, 116);
 		frame.getContentPane().add(scrollPane);
 
@@ -130,6 +131,7 @@ public class Lobby {
 
 	public void print(String msg) {
 		this.textPane.setText(textPane.getText() + "\n" + msg);
+		scrollPane.setAlignmentX(scrollPane.getHeight());
 	}
 
 	public void send() {

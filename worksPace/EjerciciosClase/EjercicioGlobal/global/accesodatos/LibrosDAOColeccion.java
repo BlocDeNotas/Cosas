@@ -3,32 +3,31 @@ package global.accesodatos;
 import java.util.ArrayList;
 
 import global.entidades.Libro;
+import global.presentacionconsola.ExcepcionCustom;
+import global.presentacionconsola.MantenimientoLibros;
 
 public class LibrosDAOColeccion implements Crudable<Libro> {
-	//Data
-	//Access
-	//Object
-	
+	// Data
+	// Access
+	// Object
+
 	// Inicio patrón Singleton
 	private LibrosDAOColeccion() {
 	}
-	
-	
+
 	private static LibrosDAOColeccion instancia;
-	
+
 	public static LibrosDAOColeccion getInstance() {
-		if(instancia == null) {
+		if (instancia == null) {
 			instancia = new LibrosDAOColeccion();
 		}
-		
+
 		return instancia;
 	}
 	// Fin patrón Singleton
-	
+
 	private ArrayList<Libro> libros = new ArrayList<Libro>();
-	
-	
-	
+
 	@Override
 	public Iterable<Libro> obtenerTodos() {
 		return libros;
@@ -38,7 +37,7 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 	public Libro obtenerPorId(long id) {
 		Libro l = null;
 		for (Libro libro : libros) {
-			if(libro.getId()==id) {
+			if (libro.getId() == id) {
 				l = libro;
 			}
 		}
@@ -54,24 +53,24 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 	@Override
 	public boolean modificar(Libro libro, long id) {
 		boolean r = false;
-		if(libros.indexOf(obtenerPorId(id))!=-1){
-			libros.set(libros.indexOf(obtenerPorId(id)),libro);
+		if (libros.indexOf(obtenerPorId(id)) != -1) {
+			libros.set(libros.indexOf(obtenerPorId(id)), libro);
 			r = true;
 		}
 		return r;
 	}
-	
+
 	@Override
 	public boolean borrar(long id) {
 		boolean r = false;
 		ArrayList<Integer> borrarbles = new ArrayList<Integer>();
 		for (Libro libro : this.libros) {
-			if(libro.getId()==id) {
+			if (libro.getId() == id) {
 				borrarbles.add(this.libros.indexOf(libro));
 			}
 		}
 		for (Integer num : borrarbles) {
-			this.libros.remove((int)num);
+			this.libros.remove((int) num);
 			r = true;
 		}
 		return r;
@@ -86,6 +85,12 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 	@Override
 	public Libro buscarPorNombre(String nombre) {
 		// TODO Auto-generated method stub
+		try {
+			throw new ExcepcionCustom("Método no implementado", MantenimientoLibros.gettPaneConsola());
+		} catch (ExcepcionCustom e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -82,7 +82,7 @@ public class Cliente {
 					System.out.println("Creado Player para: " + u.getNombre());
 					broadCast("/create 0 0 " + u.getId() + " " + u.getNombre());
 					for (Cliente cTemp : NodeJsEcho.clientes) {
-						/* TODO: if(!cTemp.ip.equals(this.ip)) */enviarUdp(
+						if(!cTemp.ip.equals(this.ip)) enviarUdp(
 								"/create 0 0 " + cTemp.getUsuario().getId() + " " + cTemp.getUsuario().getNombre(), ip);
 					}
 				} else if (comando[0].equals("/up")) {

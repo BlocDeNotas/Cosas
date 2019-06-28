@@ -36,27 +36,33 @@ import global.entidades.Editorial;
 import global.entidades.Libro;
 
 public class MantenimientoLibros {
-	private JTextPane tPaneConsola;
+	private static JTextPane tPaneConsola;
 	private JCheckBox chkBorrado;
 	private JFrame frmMantenimiento;
 	private ListadoVisualLibros ventanaListado = new ListadoVisualLibros();
 	private static Crudable<Libro> daoLibrosColeccion = LibrosDAOColeccion.getInstance();
 	private static CrudableArchivo<Libro> daoLibrosArchivo = LibrosDAOArchivos.getInstance();
 	private static Crudable<Editorial> daoEditoriales = EditorialesDAOColeccion.getInstance();
-	
-	//buttonAnulable: Contiene todos los botones que pueden llegar a ser desactivados por datos erroneos ("setEnabled(false)");
-	private ArrayList<JButton> buttonAnulable = new ArrayList<JButton>(); 
+
+	// buttonAnulable: Contiene todos los botones que pueden llegar a ser
+	// desactivados por datos erroneos ("setEnabled(false)");
+	private ArrayList<JButton> buttonAnulable = new ArrayList<JButton>();
 	private JComboBox<String> comboId = new JComboBox<String>(), comboTitulo = new JComboBox<String>();
-	private JTextField txtISBN, txtAutor, txtGenero, txtEdicion, txtEditorial, txtId, txtTitulo,txtDescripcion, txtFechaImpresion;
+	private JTextField txtISBN, txtAutor, txtGenero, txtEdicion, txtEditorial, txtId, txtTitulo, txtDescripcion,
+			txtFechaImpresion;
 
 	public void modificarLibro() throws ExcepcionCustom {
 		if (daoLibrosColeccion.modificar(crearLibroTxt(), Long.parseLong(txtId.getText()))) {
 			printOutput("Libro modificado");
 		} else {
-			throw new ExcepcionCustom("Libro no modificado, " + txtId.getText() + " no existe.",this.tPaneConsola);
+			throw new ExcepcionCustom("Libro no modificado, " + txtId.getText() + " no existe.",
+					MantenimientoLibros.gettPaneConsola());
 		}
-		/*Se ha modificado un libro así que es posible que el titulo también haya cambiado, así que actualizo los index
-		Del jComboBox de Titulos para que los titulos mostrados sean coherentes*/
+		/*
+		 * Se ha modificado un libro así que es posible que el titulo también haya
+		 * cambiado, así que actualizo los index Del jComboBox de Titulos para que los
+		 * titulos mostrados sean coherentes
+		 */
 		comboTitulo.removeAllItems();
 		for (Libro libro : daoLibrosColeccion.obtenerTodos()) {
 			comboTitulo.addItem(libro.getTitulo());
@@ -67,9 +73,10 @@ public class MantenimientoLibros {
 		if (daoLibrosColeccion.borrar(Long.parseLong(txtId.getText()))) {
 			printOutput("Libro Borrado");
 		} else {
-			throw new ExcepcionCustom("Libro no Borrado, el libro " + txtId.getText() + " no existe.",this.tPaneConsola);
+			throw new ExcepcionCustom("Libro no Borrado, el libro " + txtId.getText() + " no existe.",
+					MantenimientoLibros.gettPaneConsola());
 		}
-		//Actualizar las comboBox.
+		// Actualizar las comboBox.
 		for (int i = 0; i < comboId.getItemCount(); i++) {
 			if (txtId.getText().equals(comboId.getItemAt(i))) {
 				comboId.removeItemAt(i);
@@ -80,7 +87,7 @@ public class MantenimientoLibros {
 	}
 
 	public void anadirLibro() {
-		if(!checkearValidezCampos()) {
+		if (!checkearValidezCampos()) {
 			daoLibrosColeccion.insertar(crearLibroTxt());
 			comboId.addItem(txtId.getText());
 			comboTitulo.addItem(txtTitulo.getText());
@@ -105,17 +112,16 @@ public class MantenimientoLibros {
 				printOutput(libro.getTitulo());
 		}
 		if (l == null) {
-			new ExcepcionCustom("Libro con Titulo "+titulo + " no encontrado",this.tPaneConsola);
+			new ExcepcionCustom("Libro con Titulo " + titulo + " no encontrado", MantenimientoLibros.gettPaneConsola());
 		} else {
 			mostrarLibroVisual(l);
 		}
 	}
 
-	
 	public void mostrarLista(Iterable<Libro> lista) {
 		ArrayList<Libro> libros = (ArrayList<Libro>) daoLibrosColeccion.obtenerTodos();
-		Object[][] objRows = new Object[libros.size()][8]; //Contiene cada linea de datos de la tabla (Cada libro);
-		//Cargar cada linea de datos (cada libro);
+		Object[][] objRows = new Object[libros.size()][8]; // Contiene cada linea de datos de la tabla (Cada libro);
+		// Cargar cada linea de datos (cada libro);
 		for (int i = 0; i < libros.size(); i++) {
 			Libro l = libros.get(i);
 			objRows[i][0] = l.isBorrado();
@@ -127,14 +133,14 @@ public class MantenimientoLibros {
 			objRows[i][6] = l.getISBN();
 			objRows[i][7] = l.getId();
 		}
-		//Cargar la tabla con los datos;
-		ventanaListado.table.setModel(new DefaultTableModel(objRows,ListadoVisualLibros.columnasTabla));
+		// Cargar la tabla con los datos;
+		ventanaListado.table.setModel(new DefaultTableModel(objRows, ListadoVisualLibros.columnasTabla));
 		ventanaListado.frame.setVisible(true);
 	}
 
 	public void printOutput(String s) {
 		String formattedDate = new SimpleDateFormat("hh:mm:ss").format(new Date());
-		tPaneConsola.setText(tPaneConsola.getText() + "\n" + formattedDate + ": " + s);
+		gettPaneConsola().setText(gettPaneConsola().getText() + "\n" + formattedDate + ": " + s);
 	}
 
 	public void borrarTxt() {
@@ -169,9 +175,10 @@ public class MantenimientoLibros {
 	}
 
 	public Libro crearLibroTxt() {
-		return(new Libro(Long.parseLong(txtId.getText()), Long.parseLong(txtISBN.getText()), txtTitulo.getText(),
+		return (new Libro(Long.parseLong(txtId.getText()), Long.parseLong(txtISBN.getText()), txtTitulo.getText(),
 				txtAutor.getText(), txtDescripcion.getText(), txtGenero.getText(), txtEdicion.getText(),
-				daoEditoriales.buscarPorNombre(txtEditorial.getText()), chkBorrado.isSelected(), txtFechaImpresion.getText()));
+				daoEditoriales.buscarPorNombre(txtEditorial.getText()), chkBorrado.isSelected(),
+				txtFechaImpresion.getText()));
 	}
 
 	public void cargarCombobox() {
@@ -193,10 +200,9 @@ public class MantenimientoLibros {
 			}
 		});
 	}
-	
 
 	public boolean checkearValidezCampos() {
-		boolean saltarBoton = true; //Hace que si el dato erroneo es
+		boolean saltarBoton = true; // Hace que si el dato erroneo es
 		boolean datosErroneos = false;
 		boolean errorFecha = false;
 		try {
@@ -211,12 +217,12 @@ public class MantenimientoLibros {
 		if (errorFecha) {
 			txtFechaImpresion.setBackground(Color.RED);
 			datosErroneos = true;
-			new ExcepcionCustom("Fecha Erronea",this.tPaneConsola);
+			new ExcepcionCustom("Fecha Erronea", MantenimientoLibros.gettPaneConsola());
 		}
 		if (!(txtISBN.getText().matches("[0-9]+"))) {
 			txtISBN.setBackground(Color.RED);
 			datosErroneos = true;
-			new ExcepcionCustom("ISBN Erroneo",this.tPaneConsola);
+			new ExcepcionCustom("ISBN Erroneo", MantenimientoLibros.gettPaneConsola());
 		} else {
 			txtISBN.setBackground(Color.WHITE);
 		}
@@ -224,7 +230,7 @@ public class MantenimientoLibros {
 			txtId.setBackground(Color.RED);
 			datosErroneos = true;
 			saltarBoton = false;
-			new ExcepcionCustom("Id Erronea",this.tPaneConsola);
+			new ExcepcionCustom("Id Erronea", MantenimientoLibros.gettPaneConsola());
 		} else {
 			txtId.setBackground(Color.WHITE);
 		}
@@ -237,7 +243,7 @@ public class MantenimientoLibros {
 		}
 		return datosErroneos;
 	}
-	
+
 	DocumentListener checker = new DocumentListener() {
 		@Override
 		public void removeUpdate(DocumentEvent e) {
@@ -255,26 +261,27 @@ public class MantenimientoLibros {
 		}
 	};
 	private JTextField txtDescripcion2;
-	
-	public  void insertarLibrosEjemplo(){
+
+	public void insertarLibrosEjemplo() {
 		/*
 		 * long id, long iSBN, String titulo, String autor, String descripcion, String
 		 * genero, String edicion, String editorial, boolean isBorrado, String
 		 * fechaImpresion
 		 */
-		daoLibrosColeccion.insertar(new Libro(0, 12, "Titulo0", "autor0", "descripcion0", "genero0", "edicion0", daoEditoriales.buscarPorNombre("Ye boi"),"desc0", false,
-				"1990-12-28"));
-		daoLibrosColeccion.insertar(new Libro(1, 18, "ESTUDIAR EL DIA ANTERIOR", "God", "Intentar aprobar", "genero1", "edicion1", daoEditoriales.buscarPorNombre("O´RLY"),"Y acabar suspendiendo", true,
-				"2016-05-11"));
-		daoLibrosColeccion.insertar(new Libro(2, 900, "Titulo2", "autor2", "descripcion2", "genero2", "edicion2", daoEditoriales.buscarPorNombre("Ye boi"),"desc2", false,
-				"1500-01-01"));
+		daoLibrosColeccion.insertar(new Libro(0, 12, "Titulo0", "autor0", "descripcion0", "genero0", "edicion0",
+				daoEditoriales.buscarPorNombre("Ye boi"), "desc0", false, "1990-12-28"));
+		daoLibrosColeccion.insertar(new Libro(1, 18, "ESTUDIAR EL DIA ANTERIOR", "God", "Intentar aprobar", "genero1",
+				"edicion1", daoEditoriales.buscarPorNombre("O´RLY"), "Y acabar suspendiendo", true, "2016-05-11"));
+		daoLibrosColeccion.insertar(new Libro(2, 900, "Titulo2", "autor2", "descripcion2", "genero2", "edicion2",
+				daoEditoriales.buscarPorNombre("Ye boi"), "desc2", false, "1500-01-01"));
 		cargarCombobox();
 	}
-	
-	//Inicia los graficos y los listener de los botones.
+
+	// Inicia los graficos y los listener de los botones.
 	private void initialize() {
 		frmMantenimiento = new JFrame();
-		frmMantenimiento.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Covacs\\Desktop\\book-icon.png"));
+		frmMantenimiento
+				.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Covacs\\Desktop\\book-icon.png"));
 		frmMantenimiento.setTitle("Mantenimiento");
 		frmMantenimiento.setBounds(100, 100, 400, 527);
 		frmMantenimiento.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -363,8 +370,10 @@ public class MantenimientoLibros {
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(txtId.getText().matches("[0-9]+"))borrarLibro();
-					else printOutput("Id no válida, libro no borrado");
+					if (txtId.getText().matches("[0-9]+"))
+						borrarLibro();
+					else
+						printOutput("Id no válida, libro no borrado");
 				} catch (ExcepcionCustom e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -378,7 +387,7 @@ public class MantenimientoLibros {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					if(!checkearValidezCampos()) {
+					if (!checkearValidezCampos()) {
 						modificarLibro();
 					}
 				} catch (ExcepcionCustom e1) {
@@ -402,13 +411,13 @@ public class MantenimientoLibros {
 		JButton btnCargar = new JButton("Cargar");
 		btnCargar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(daoLibrosArchivo.cargar()) {
+				if (daoLibrosArchivo.cargar()) {
 					printOutput("Json cargado en libros");
 					comboTitulo.removeAllItems();
 					comboId.removeAllItems();
 					cargarCombobox();
-				}
-				else printOutput("Error al cargar el Json");
+				} else
+					printOutput("Error al cargar el Json");
 			}
 		});
 		btnCargar.setBackground(new Color(59, 89, 182));
@@ -478,61 +487,72 @@ public class MantenimientoLibros {
 		lblOutput.setBounds(10, 318, 85, 14);
 		frmMantenimiento.getContentPane().add(lblOutput);
 
-		tPaneConsola = new JTextPane();
-		tPaneConsola.setForeground(Color.WHITE);
-		tPaneConsola.setBackground(Color.BLACK);
-		tPaneConsola.setBounds(10, 339, 355, 50);
-		frmMantenimiento.getContentPane().add(tPaneConsola);
+		settPaneConsola(new JTextPane());
+		gettPaneConsola().setForeground(Color.WHITE);
+		gettPaneConsola().setBackground(Color.BLACK);
+		gettPaneConsola().setBounds(10, 339, 355, 50);
+		frmMantenimiento.getContentPane().add(gettPaneConsola());
 
-		JScrollPane scrollBar = new JScrollPane(tPaneConsola);
+		JScrollPane scrollBar = new JScrollPane(gettPaneConsola());
 		scrollBar.setBounds(10, 337, 355, 140);
 		frmMantenimiento.getContentPane().add(scrollBar);
 
-		tPaneConsola.setEditable(false); // set textArea non-editable
+		gettPaneConsola().setEditable(false); // set textArea non-editable
 		scrollBar.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JLabel lblNewLabel = new JLabel("AA-MM-DD");
 		lblNewLabel.setBounds(105, 116, 86, 14);
 		frmMantenimiento.getContentPane().add(lblNewLabel);
-		
+
 		JButton btnGuardar = new JButton("Guardar");
 		btnGuardar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(daoLibrosArchivo.guardar()) printOutput("Libros guardados en Json");
-				else printOutput("Error al cargar los libros");
+				if (daoLibrosArchivo.guardar())
+					printOutput("Libros guardados en Json");
+				else
+					printOutput("Error al cargar los libros");
 			}
 		});
 		btnGuardar.setForeground(Color.BLACK);
 		btnGuardar.setBackground(Color.GREEN);
 		btnGuardar.setBounds(217, 299, 148, 34);
 		frmMantenimiento.getContentPane().add(btnGuardar);
-		
+
 		JButton btnVerLibro = new JButton("Ver Libro");
 		btnVerLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new MostrarLibro(txtDescripcion.getText(),txtTitulo.getText(),txtEditorial.getText(),txtAutor.getText(),txtFechaImpresion.getText(),txtDescripcion2.getText());
+				new MostrarLibro(txtDescripcion.getText(), txtTitulo.getText(), txtEditorial.getText(),
+						txtAutor.getText(), txtFechaImpresion.getText(), txtDescripcion2.getText());
 			}
 		});
 		btnVerLibro.setBackground(Color.YELLOW);
 		btnVerLibro.setBounds(276, 8, 89, 23);
 		frmMantenimiento.getContentPane().add(btnVerLibro);
-		
+
 		JLabel lblDesc2 = new JLabel("Descripcion2");
 		lblDesc2.setBounds(117, 12, 79, 14);
 		frmMantenimiento.getContentPane().add(lblDesc2);
-		
+
 		txtDescripcion2 = new JTextField();
 		txtDescripcion2.setColumns(10);
 		txtDescripcion2.setBounds(178, 9, 86, 20);
 		frmMantenimiento.getContentPane().add(txtDescripcion2);
-		
+
 		for (JButton jb : buttonAnulable) {
 			jb.setEnabled(false);
 		}
 	}
-	
+
 	public MantenimientoLibros() {
 		initialize();
 		insertarLibrosEjemplo();
+	}
+
+	public static JTextPane gettPaneConsola() {
+		return tPaneConsola;
+	}
+
+	public void settPaneConsola(JTextPane tPaneConsola) {
+		MantenimientoLibros.tPaneConsola = tPaneConsola;
 	}
 }

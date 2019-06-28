@@ -25,7 +25,7 @@ public class DesktopLauncher {
 		if ((Long) id != null) {
 			if (comando[0].equals("/msg")) {
 				System.out.println("MSGGGGG");
-				l.print(msg);
+				l.print(comando[1]+" "+comando[2]);
 			} else {
 				Juego.print(msg);
 				// System.out.println("Desktop: "+msg);

@@ -178,11 +178,25 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook1
+blood
+  rotate: false
+  xy: 194, 510
+  size: 512, 512
+  orig: 512, 512
+  offset: 0, 0
+  index: -1
+fondoLobby
   rotate: false
   xy: 2, 2
-  size: 928, 793
-  orig: 928, 793
+  size: 900, 506
+  orig: 900, 506
+  offset: 0, 0
+  index: -1
+playMenu
+  rotate: false
+  xy: 2, 792
+  size: 190, 230
+  orig: 190, 230
   offset: 0, 0
   index: -1
 
@@ -191,7 +205,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook2
+fondook1
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -204,7 +218,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook3
+fondook2
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -217,7 +231,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook4
+fondook3
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -230,7 +244,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook5
+fondook4
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -243,7 +257,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook6
+fondook5
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -256,7 +270,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook7
+fondook6
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -269,7 +283,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook8
+fondook7
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -282,7 +296,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook9
+fondook8
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -295,7 +309,7 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-fondook10
+fondook9
   rotate: false
   xy: 2, 2
   size: 928, 793
@@ -308,24 +322,23 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-adventurer
-  rotate: false
-  xy: 516, 154
-  size: 350, 592
-  orig: 350, 592
-  offset: 0, 0
-  index: -1
-blood
-  rotate: false
-  xy: 2, 234
-  size: 512, 512
-  orig: 512, 512
-  offset: 0, 0
-  index: -1
-playMenu
+fondook10
   rotate: false
   xy: 2, 2
-  size: 190, 230
-  orig: 190, 230
+  size: 928, 793
+  orig: 928, 793
+  offset: 0, 0
+  index: -1
+
+game13.png
+size: 512,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+adventurer
+  rotate: false
+  xy: 2, 2
+  size: 350, 592
+  orig: 350, 592
   offset: 0, 0
   index: -1

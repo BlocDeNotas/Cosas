@@ -1,8 +1,8 @@
 package global.entidades;
 
 public class Libro {
-	private long id,ISBN;
-	private String titulo, autor, descripcion, genero, edicion,descripcion2;
+	private long id, ISBN;
+	private String titulo, autor, descripcion, genero, edicion, descripcion2;
 	private boolean isBorrado;
 	private String fechaImpresion;
 	private Editorial editorial;
@@ -26,8 +26,6 @@ public class Libro {
 		this.isBorrado = isBorrado;
 		this.fechaImpresion = fechaImpresion;
 	}
-	
-	
 
 	public Libro(long id, long iSBN, String titulo, String autor, String descripcion, String genero, String edicion,
 			Editorial editorial, String descripcion2, boolean isBorrado, String fechaImpresion) {
@@ -136,7 +134,5 @@ public class Libro {
 	public void setDescripcion2(String descripcion2) {
 		this.descripcion2 = descripcion2;
 	}
-	
-	
-	
+
 }

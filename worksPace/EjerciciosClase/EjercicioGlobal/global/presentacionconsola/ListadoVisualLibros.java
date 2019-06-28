@@ -9,7 +9,9 @@ public class ListadoVisualLibros {
 	JFrame frame;
 	JTable table;
 	JTableHeader header;
-	public static final String[] columnasTabla = new String[] { "isBorrado", "Genero", "Titulo", "Editorial", "Autor", "Fecha", "ISBN", "Id" };
+	public static final String[] columnasTabla = new String[] { "isBorrado", "Genero", "Titulo", "Editorial", "Autor",
+			"Fecha", "ISBN", "Id" };
+
 	/**
 	 * Create the application.
 	 */
@@ -24,14 +26,14 @@ public class ListadoVisualLibros {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.getContentPane().setLayout(null);
-		
+
 		table = new JTable();
-		
+
 		table.setBounds(10, 42, 414, 208);
 		header = table.getTableHeader();
-		header.setBounds(10,0,414, 42);
+		header.setBounds(10, 0, 414, 42);
 		frame.getContentPane().add(table);
 		frame.getContentPane().add(header);
-		//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }
