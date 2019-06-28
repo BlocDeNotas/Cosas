@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.badlogic.gdx.Input;
+
+import FisicasComunes.AtaqueComun;
 import FisicasComunes.PlayerComun;
 
 public class Cliente {
@@ -62,6 +65,11 @@ public class Cliente {
 					msgOut = "Logeate para poder mandar mensajes.";
 				} else if (u.getP() != null) {
 					broadCast("/input " + s + " " + u.getId());
+					if(Integer.parseInt(s) == Input.Keys.F) {
+						System.out.println("Nuevo Ataque");
+						u.getP().getAtaques().add(new AtaqueComun(u.getP().getBody(), 50, 100));
+						System.out.println(u.getP().getAtaques().get(u.getP().getAtaques().size()-1).getBody().getX());
+					}
 					u.getP().teclasPulsadas.add(Integer.parseInt(s));
 				}
 			} else {

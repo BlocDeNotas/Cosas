@@ -49,26 +49,38 @@ public class Fisics {
 	}
 
 	private static void calcularHitBoxes(PlayerComun pl2) {
-		//for (FisicasComunes.AtaqueComun aActual : pl2.getAtaques()) {
-			// aActual.getBody().setX(u.getUsuario().getP().getBody().getX());
-			// aActual.getBody().setY(u.getUsuario().getP().getBody().getY());
-			// double xt = aActual.getBody().getX();
-			// double yt = aActual.getBody().getY();
-			// boolean colis = false;
-			// for (Cliente c2 : NodeJsEcho.clientes) {
-			/*
-			 * Body pl2Body = pl2.getBody(); double xPl = pl2Body.getHitbox()[4]; double yPl
-			 * = pl2Body.getHitbox()[5]; if(!pl2.equals(c2.getUsuario().getP())) { int distx
-			 * = (int) Math.abs(xt - xPl); if ( (xt<xPl && distx <
-			 * aActual.getBody().getWidth()) || (xt>xPl && distx < pl2Body.getHitbox()[2]))
-			 * { int disty = (int)Math.abs(yPl-yt);
-			 * 
-			 * if( (yt < yPl && disty < aActual.getBody().getHeight()) || (yt>yPl && disty <
-			 * pl2Body.getHitbox()[3])) { //colis = true; //pl2.setHp(pl2.getHp() -
-			 * aActual.getAtk()); } } }
-			 */
-			// }
+		ArrayList<AtaqueComun> ataquesBorrar = new ArrayList<AtaqueComun>();
+		for (FisicasComunes.AtaqueComun aActual : pl2.getAtaques()) {
+			aActual.setHp(aActual.getHp()-1);
+			if(aActual.getHp()>0) {
+				aActual.getBody().setX(pl2.getBody().getX());
+				aActual.getBody().setY(pl2.getBody().getY());
+				double xt = aActual.getBody().getX();
+				double yt = aActual.getBody().getY();
+				boolean colis = false;
+				for (Cliente c2 : NodeJsEcho.clientes) {
+					Body pl2Body = pl2.getBody();
+					double xPl = pl2Body.getHitbox()[4]; 
+					double yPl = pl2Body.getHitbox()[5]; 
+					if(!pl2.equals(c2.getUsuario().getP())) { 
+						int distx = (int) Math.abs(xt - xPl); 
+						if ( (xt<xPl && distx < aActual.getBody().getWidth()) || (xt>xPl && distx < pl2Body.getHitbox()[2])) { 
+							int disty = (int)Math.abs(yPl-yt);
+							if( (yt < yPl && disty < aActual.getBody().getHeight()) || (yt>yPl && disty < pl2Body.getHitbox()[3])) { 
+								colis = true;
+								aActual.setHp(0);
+								pl2.setHp(pl2.getHp() - aActual.getAtk()); 
+							} 
+						} 
+					} 
+				}
+			} else {
+				ataquesBorrar.add(aActual);
+			}
 		}
-
-	//}
+		for (AtaqueComun ataqueComun : ataquesBorrar) {
+			pl2.getAtaques().remove(ataqueComun);
+			System.out.println("Ataque borrado");
+		}
+	}
 }
