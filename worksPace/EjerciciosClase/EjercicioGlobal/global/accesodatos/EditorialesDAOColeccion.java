@@ -18,7 +18,6 @@ public class EditorialesDAOColeccion implements Crudable<Editorial>{
 		if(instancia == null) {
 			instancia = new EditorialesDAOColeccion();
 		}
-		
 		return instancia;
 	}
 	

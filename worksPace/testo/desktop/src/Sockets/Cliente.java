@@ -97,6 +97,10 @@ public class Cliente{
 				} else {
 					ServerVisual.print("Comando "+comando[0]+" no encontrado.");
 				}
+				String nombres[] ={"Juan", "Maria", "Antonio","Victoria"};
+				if(nombres instanceof String[]) {
+					
+				}
 			}
 			if(!msgOut.equals("")) {
 				enviarUdp(msgOut,ip);

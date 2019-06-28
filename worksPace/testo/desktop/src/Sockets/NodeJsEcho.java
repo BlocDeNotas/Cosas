@@ -62,6 +62,7 @@ public class NodeJsEcho extends Thread {
 								Body pBody = c2.getUsuario().getP().getBody();
 								try {
 									c.broadCast("/syncro "+pBody.getX()+" "+pBody.getY()+" "+c2.getUsuario().getId()+" "+pBody.getVelx()+" "+pBody.getVely());
+									c.enviarUdp(("/syncro "+pBody.getX()+" "+pBody.getY()+" "+c2.getUsuario().getId()+" "+pBody.getVelx()+" "+pBody.getVely()),c.getIp());
 								} catch (UnknownHostException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
