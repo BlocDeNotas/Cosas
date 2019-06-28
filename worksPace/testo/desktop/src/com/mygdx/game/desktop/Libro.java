@@ -1,10 +1,10 @@
 package com.mygdx.game.desktop;
 
 public class Libro {
-	//TODO: ISBN,
+	// TODO: ISBN,
 	private long id;
 	private String titulo;
-	
+
 	public Libro(Long id, String titulo) {
 		super();
 		this.id = id;
@@ -15,5 +15,5 @@ public class Libro {
 	public String toString() {
 		return "Libro [id=" + id + ", titulo=" + titulo + "]";
 	}
-	
+
 }

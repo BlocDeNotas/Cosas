@@ -19,8 +19,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import Cliente.Client;
-import Cliente.Login;
 import FisicasComunes.Body;
 import ObjBox2d.Ataque;
 import ObjBox2d.Player;
@@ -28,33 +26,32 @@ import ObjBox2d.Player;
 public class Juego extends ApplicationAdapter implements Screen, InputProcessor {
 	Texture img;
 	int[] pf;
-	
+
 	public static Launcher game;
-	
+
 	Music mus;
 	static Calendar cal = Calendar.getInstance();
-    static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-	
+	static SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
 	public static OrthographicCamera camera;
 	public BitmapFont font;
-	private final int parallaxSpeed = 6;
 	static float tmFrame;
-	
+
 	public static ArrayList<Sprite> fondos = new ArrayList<Sprite>();
 	public static ShapeRenderer shapeRenderer;
 	public static ArrayList<Ataque> ataques = new ArrayList<Ataque>();
 	public static ArrayList<Player> players = new ArrayList<Player>();
 	public static ArrayList<Object> borrar = new ArrayList<Object>();
-	
+
 	public static int x = 0;
-	
+
 	public static int y = 0;
 	public final static int ySuelo = 50;
 	public static int parallax = 0;
 
 	public Juego(Launcher game) {
 		font = new BitmapFont();
-	    font.setColor(Color.RED);
+		font.setColor(Color.RED);
 		Juego.game = game;
 		Juego.camera = new OrthographicCamera();
 		Juego.camera.setToOrtho(false, 928, 583);
@@ -95,12 +92,12 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 		 * =============================================================
 		 */
 		tmFrame = 0f; // Variable que controlará en que frame está cada animación.
-		
+
 		Gdx.input.setInputProcessor(this); // Procesador de input, touch,click etc...
 		players.add(new Player(100, 1, 0));
 		players.get(0).setCameraLock(true);
-		
-		players.get(0).getAtaques().add(new Ataque(10, 0, 1,180,60));
+
+		players.get(0).getAtaques().add(new Ataque(10, 0, 1, 180, 60));
 		shapeRenderer.setAutoShapeType(true);
 		controlesSinLoop.add(Input.Keys.F);
 		controlesSinLoop.add(Input.Keys.SPACE);
@@ -119,10 +116,10 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 		}
 		playerCola.clear();
 		shapeRenderer.setProjectionMatrix(Launcher.batch.getProjectionMatrix()); // Crear esto si no está creado para el
-		parallax = (int) players.get(0).getBody().getX()*-1;													// shaperenderer...
+		parallax = (int) players.get(0).getBody().getX() * -1; // shaperenderer...
 		shapeRenderer.begin();
 		Player p = players.get(0);
-		
+
 		tmFrame += Gdx.graphics.getDeltaTime(); // Cambiar la animacion de cada objeto.
 		/* ========================================== */
 		/*
@@ -148,7 +145,8 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 				pf[i] -= 1;
 			}
 			Launcher.batch.draw(fondos.get(i), xf[i], 0); // Pintar el suelo y las montañas de fondo
-			Launcher.batch.draw(fondos.get(i), xf[i] + 928 * (xf[i] > 0 ? -1 : 1), 0); // Pintar el suelo y las montañas																			// de fondo
+			Launcher.batch.draw(fondos.get(i), xf[i] + 928 * (xf[i] > 0 ? -1 : 1), 0); // Pintar el suelo y las montañas
+																						// // de fondo
 		}
 		int num = 100;
 		for (Player pl : players) {
@@ -161,24 +159,28 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 					Body pl2Body = pl2.getBody();
 					double xPl = pl2Body.getHitbox()[4];
 					double yPl = pl2Body.getHitbox()[5];
-					//if(!pl2.equals(pl)) {
-						if (!p.equals(aActual)) {
-							int distx = (int) Math.abs(xt - xPl);
-							if ( (xt<xPl && distx < aActual.getBody().getWidth()) || (xt>xPl && distx < pl2Body.getHitbox()[2])) {
-								int disty = (int)Math.abs(yPl-yt);
-								
-								if( (yt < yPl && disty < aActual.getBody().getHeight()) || (yt>yPl && disty < pl2Body.getHitbox()[3])) {
-									colis = true;
-									pl2.setHp(pl2.getHp() - aActual.getAtk());
-								}
-							}
+					if (!p.equals(pl)) {
+						int distx = (int) Math.abs(xt - xPl);
+						if ((xt < xPl && distx < aActual.getBody().getWidth())
+								|| (xt > xPl && distx < pl2Body.getHitbox()[2])) {
+							int disty = (int) Math.abs(yPl - yt);
 
+							if ((yt < yPl && disty < aActual.getBody().getHeight())
+									|| (yt > yPl && disty < pl2Body.getHitbox()[3])) {
+								colis = true;
+								pl2.setHp(pl2.getHp() - aActual.getAtk());
+							}
 						}
+
 					}
+				}
+				if(colis) {
+					//TODO:
+				}
 			}
 			font.draw(Launcher.batch, String.valueOf(pl.getBody().getX()), 200, num);
-			num+=100;
-			
+			num += 100;
+
 		}
 		/* ============================================================= */
 		/*
@@ -191,9 +193,7 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 			ataques.remove(borrarObj);
 		}
 		borrar.clear();
-		
-		
-		
+
 		Launcher.batch.end(); // Ya no se va a pintar nada más (Excepto los rectangulos de vida con el
 								// shapeRenderer)
 		shapeRenderer.end();
@@ -201,9 +201,10 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 
 	private void crearPlayerNetworking(String[] playerNuevo) {
 		// TODO Auto-generated method stub
-		if(Integer.parseInt(playerNuevo[3])!=DesktopLauncher.id) {
+		if (Integer.parseInt(playerNuevo[3]) != DesktopLauncher.id) {
 			System.out.println("CREANDO PLAYER NUEVO DESDE NETWORKING");
-			Player temp = new Player(100,1,Integer.parseInt((playerNuevo[3])));//Integer.parseInt(comando[0]),Integer.parseInt(comando[1]),Integer.parseInt(comando[2])); //x,y,id
+			Player temp = new Player(100, 1, Integer.parseInt((playerNuevo[3])));// Integer.parseInt(comando[0]),Integer.parseInt(comando[1]),Integer.parseInt(comando[2]));
+																					// //x,y,id
 			players.add(temp);
 			temp.setCameraLock(false);
 		}
@@ -233,31 +234,32 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 		if (!players.get(0).teclasPulsadas.contains(keycode)) {
 			players.get(0).teclasPulsadas.add((Integer) keycode);
 			try {
-				DesktopLauncher.client.enviar(""+keycode);
+				DesktopLauncher.client.enviar("" + keycode);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(controlesSinLoop.contains(keycode)) players.get(0).setTimerAnim(0);
+			if (controlesSinLoop.contains(keycode))
+				players.get(0).setTimerAnim(0);
 		}
-			
+
 		return false;
 	}
-	
-	public static ArrayList<Integer>  controlesSinLoop = new ArrayList<Integer>();
+
+	public static ArrayList<Integer> controlesSinLoop = new ArrayList<Integer>();
 
 	@Override
 	public boolean keyUp(int keycode) {
 		if (players.get(0).teclasPulsadas.contains(keycode)) {
 			try {
-				DesktopLauncher.client.enviar("/up "+keycode);
+				DesktopLauncher.client.enviar("/up " + keycode);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(!controlesSinLoop.contains(keycode)) {
+			if (!controlesSinLoop.contains(keycode)) {
 				players.get(0).teclasPulsadas.remove((Integer) keycode);
-				
+
 			}
 		}
 		return false;
@@ -298,37 +300,53 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 	private static ArrayList<String[]> playerCola = new ArrayList<String[]>();
+
 	public static void print(String msg) {
-		String dat = sdf.format(cal.getTime());
-		//System.out.println(dat+": "+msg);
-		if(msg.charAt(0)=='/') { //Comando
+		//String dat = sdf.format(cal.getTime());
+		// System.out.println(dat+": "+msg);
+		if (msg.charAt(0) == '/') { // Comando
 			String[] comando = msg.split(" ");
-			if(comando[0].equals("/create")) {
+			if (comando[0].equals("/create")) {
+				System.out.println("CREANDO PLAYER DE NETWORKING");
 				playerCola.add(comando);
-			} else if(comando[0].equals("/input")){
-				buscarPlayer(Long.parseLong(comando[2])).teclasPulsadas.add(Integer.parseInt(comando[1]));
-			} else if(comando[0].equals("/up")){
-				buscarPlayer(Long.parseLong(comando[2])).teclasPulsadas.remove((Integer)Integer.parseInt(comando[1]));
-			} else if(comando[0].equals("/syncro")){
+			} else if (comando[0].equals("/input")) {
+				Player pTemp = buscarPlayer(Long.parseLong(comando[2]));
+				if (pTemp != null)
+					pTemp.teclasPulsadas.add(Integer.parseInt(comando[1]));
+				else {
+					System.out.println("Player no encontrado " + comando.toString());
+				}
+			} else if (comando[0].equals("/up")) {
+				Player pTemp = buscarPlayer(Long.parseLong(comando[2]));
+				if (pTemp != null)
+					pTemp.teclasPulsadas.remove((Integer) Integer.parseInt(comando[1]));
+				else {
+					System.out.println("Player no encontrado " + comando.toString());
+				}
+			} else if (comando[0].equals("/syncro")) {
 				Player temp = buscarPlayer(Long.parseLong(comando[3]));
-				if(temp != null) {
+				if (temp != null) {
 					temp.getBody().setX(Double.parseDouble(comando[1]));
 					temp.getBody().setY(Double.parseDouble(comando[2]));
 					temp.getBody().setVelx(Double.parseDouble(comando[4]));
 					temp.getBody().setVely(Double.parseDouble(comando[5]));
+				} else {
+					System.out.println("WTF SYNCRO");
 				}
-				
+
 			}
-			
+
 		}
 	}
-	
+
 	public static Player buscarPlayer(long id) {
 		for (Player temp : players) {
-			if(temp.getId()==id) return temp;
+			if (temp.getId() == id)
+				return temp;
 		}
-		//System.out.println("PLAYER NO ENCONTRADO");
+		// System.out.println("PLAYER NO ENCONTRADO");
 		return null;
 	}
 }

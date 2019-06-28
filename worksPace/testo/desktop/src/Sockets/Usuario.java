@@ -1,13 +1,12 @@
 package Sockets;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import FisicasComunes.PlayerComun;
 
 public class Usuario {
 	private String nombre, apellido, edad, contrasena, nUsuario;
-	private long id = (long)(Math.random()*1000);
+	private long id = (long) (Math.random() * 1000);
 	private PlayerComun p;
 
 	public PlayerComun getP() {
@@ -52,10 +51,10 @@ public class Usuario {
 		super();
 		this.nombre = arrayList.get(0).get(0);
 		this.apellido = arrayList.get(0).get(1);
-		System.out.println("Usuario "+nombre+" logeado");
-		/*this.edad = temp[2];
-		this.contrasena = temp[3];
-		this.nUsuario = temp[4];*/
+		System.out.println("Usuario " + nombre + " logeado");
+		/*
+		 * this.edad = temp[2]; this.contrasena = temp[3]; this.nUsuario = temp[4];
+		 */
 	}
 
 	public String getEdad() {

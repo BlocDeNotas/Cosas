@@ -1,7 +1,5 @@
 package ObjBox2d;
 
-import java.util.HashMap;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,7 +8,7 @@ public class DatosAnimacion {
 	private int famesFin, framesInicio;
 	private Texture texture;
 	private Animation<TextureRegion> animacion;
-	
+
 	public DatosAnimacion(int framesInicio, int famesFin, Texture texture, Animation<TextureRegion> animacion) {
 		super();
 		this.framesInicio = framesInicio;
@@ -24,8 +22,6 @@ public class DatosAnimacion {
 		this.famesFin = famesFin;
 		this.framesInicio = framesInicio;
 	}
-
-	
 
 	public int getFamesFin() {
 		return famesFin;

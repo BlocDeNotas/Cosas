@@ -1,7 +1,5 @@
 package FisicasComunes;
 
-import com.badlogic.gdx.math.Vector2;
-
 public class Body {
 	private double x, y, velx, vely;
 	double width = 10;
@@ -13,11 +11,11 @@ public class Body {
 	}
 
 	public void setHeight(int height) {
-		this.height = height*3;
+		this.height = height * 3;
 	}
 
 	public void setWidth(int width) {
-		this.width = width*3;
+		this.width = width * 3;
 	}
 
 	public double getX() {
@@ -60,18 +58,18 @@ public class Body {
 	public Body(double x, double y, double width, double height) {
 		this.x = x;
 		this.y = y;
-		this.velx = velx;
+		this.velx = 0;
 		this.vely = 0;
-		this.width = width*3;
-		this.height = height*3;
-		this.hitbox[0] = +this.width/4;
+		this.width = width * 3;
+		this.height = height * 3;
+		this.hitbox[0] = +this.width / 4;
 		this.hitbox[1] = 0;
-		this.hitbox[2] = this.width/2;
-		this.hitbox[3] = this.height*.75;
-		this.hitbox[4] = this.x+this.hitbox[0];
-		this.hitbox[5] = this.x+this.hitbox[1];
+		this.hitbox[2] = this.width / 2;
+		this.hitbox[3] = this.height * .75;
+		this.hitbox[4] = this.x + this.hitbox[0];
+		this.hitbox[5] = this.x + this.hitbox[1];
 	}
-	
+
 	public double[] getHitbox() {
 		return hitbox;
 	}
@@ -81,10 +79,10 @@ public class Body {
 	}
 
 	public void update() {
-		this.hitbox[4] = this.x+this.hitbox[0];
-		this.hitbox[5] = this.y+this.hitbox[1];
-		//this.y += this.vely;
-		//this.x += this.velx;
+		this.hitbox[4] = this.x + this.hitbox[0];
+		this.hitbox[5] = this.y + this.hitbox[1];
+		// this.y += this.vely;
+		// this.x += this.velx;
 	}
 
 	public double getWidth() {
