@@ -79,9 +79,21 @@ public class Player extends ObjetoFisicoPintable implements MetodosFisicos {
 		else if (!loop) {
 			if (teclasPulsadas.contains(Input.Keys.A)) {
 				teclasPulsadas.remove((Integer) Input.Keys.A);
+				try {
+					DesktopLauncher.client.enviar("/up " + Input.Keys.A);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if (teclasPulsadas.contains(Input.Keys.D)) {
 				teclasPulsadas.remove((Integer) Input.Keys.D);
+				try {
+					DesktopLauncher.client.enviar("/up " + Input.Keys.D);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			if (teclasPulsadas.contains(Input.Keys.F)) {
 				p.getAnimActual().setFrameDuration((float) 0.05);

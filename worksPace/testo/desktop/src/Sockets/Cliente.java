@@ -88,7 +88,7 @@ public class Cliente {
 				} else if (comando[0].equals("/up")) {
 					System.out.println(u);
 					broadCast(s + " " + u.getId());
-					u.getP().teclasPulsadas.remove((Integer) Integer.parseInt(comando[1]));
+					if(u.getP().teclasPulsadas.contains((Integer) Integer.parseInt(comando[1])))u.getP().teclasPulsadas.remove((Integer) Integer.parseInt(comando[1]));
 				} else if (comando[0].equals("/register")) {
 					crearUsuario(comando[1], comando[2]);
 				} else if (comando[0].equals("/msg")) {

@@ -250,13 +250,13 @@ public class Juego extends ApplicationAdapter implements Screen, InputProcessor 
 
 	@Override
 	public boolean keyUp(int keycode) {
+		try {
+			DesktopLauncher.client.enviar("/up " + keycode);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if (players.get(0).teclasPulsadas.contains(keycode)) {
-			try {
-				DesktopLauncher.client.enviar("/up " + keycode);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			if (!controlesSinLoop.contains(keycode)) {
 				players.get(0).teclasPulsadas.remove((Integer) keycode);
 
